@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "org.drizzle.ml.word2vec.service";
+option java_outer_classname = "W2VService";
+option objc_class_prefix = "W2V";
+
+package word2vec_server;
+
+service Word2VecService {
+    rpc GetVectorMap (stream WordList) returns (stream WordVectorMap) {
+    }
+    rpc GetNearestWord (stream VectorList) returns (stream WordVectorMap) {
+    }
+}
+
+message VectorList {
+    repeated string words = 1;
+}
+
+message WordVector {
+    string word = 1;
+    repeated double vector = 2;
+}
+
+message WordList {
+    repeated string words = 1;
+}
+
+message WordVectorMap {
+    repeated WordVector wordMap = 1;
+}
