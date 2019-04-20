@@ -8,25 +8,38 @@ option objc_class_prefix = "W2V";
 package word2vec_server;
 
 service Word2VecService {
-    rpc GetVectorMap (stream WordList) returns (stream WordVectorMap) {
+    rpc GetVectorMap (stream Word) returns (stream WordVector) {
     }
-    rpc GetNearestWord (stream VectorList) returns (stream WordVectorMap) {
+
+    rpc GetNearestWord (stream NearestToVector) returns (stream VectorWordList) {
+    }
+
+    rpc GetStatus (VoidMessage) returns (Status) {
     }
 }
 
-message VectorList {
-    repeated string words = 1;
+message VoidMessage {
+
+}
+message Status {
+    bool ready = 1;
+}
+
+message Word {
+    string word = 1;
+}
+
+message NearestToVector {
+    repeated double vector = 1;
+    int32 limit = 2;
 }
 
 message WordVector {
-    string word = 1;
+    Word word = 1;
     repeated double vector = 2;
 }
 
-message WordList {
-    repeated string words = 1;
-}
-
-message WordVectorMap {
-    repeated WordVector wordMap = 1;
+message VectorWordList {
+    repeated double vector = 1;
+    repeated Word words = 2;
 }

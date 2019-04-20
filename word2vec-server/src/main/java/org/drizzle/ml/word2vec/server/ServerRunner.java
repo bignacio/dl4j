@@ -6,14 +6,15 @@ import org.drizzle.ml.word2vec.handlers.ServiceRequestHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ServerRunner {
     private final Logger logger = LoggerFactory.getLogger(ServerRunner.class);
     private final Server server;
 
-    public ServerRunner(ServerBuilder<?> serverBuilder) {
-        server = serverBuilder.addService(new ServiceRequestHandler())
+    public ServerRunner(ServerBuilder<?> serverBuilder, File word2vecModelFile, boolean useTreeModel) {
+        server = serverBuilder.addService(new ServiceRequestHandler(word2vecModelFile, useTreeModel))
                 .build();
 
         logger.info("Created server {}", server);
