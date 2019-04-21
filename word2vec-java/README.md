@@ -42,6 +42,13 @@ at the cost of substantial memory and loading time.
 This behaviour is disabled by default but recommended if you intend to have the service running constantly and have resources
 available.
 
+### Custom logging configuration
+The service comes with a built-in log4j configuration file but you can give it a different one through the property `log4j.configurationFile`.
+
+For example
+
+`java -Dlog4j.configurationFile=mylog4j2.properties -jar word2vec-server-1.0.0.jar -f model.bin` 
+
 ## Current features
 * retrieve the vector representation for one or more word
 * retrieve the top `n` nearest words given a vector

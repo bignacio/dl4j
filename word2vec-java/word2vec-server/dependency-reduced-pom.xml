@@ -45,6 +45,12 @@
   </build>
   <dependencies>
     <dependency>
+      <groupId>org.drizzle.ml.word2vec</groupId>
+      <artifactId>grpc-java-client</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.4.1</version>
@@ -79,12 +85,6 @@
           <groupId>org.apiguardian</groupId>
         </exclusion>
       </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.drizzle.ml.word2vec</groupId>
-      <artifactId>grpc-java-client</artifactId>
-      <version>1.0.0</version>
-      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
