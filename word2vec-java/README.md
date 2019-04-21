@@ -17,7 +17,7 @@ clone the repository and run
 
 This will create a shaded (fat) jar in `word2vec-server/target/word2vec-server-1.0.0.jar`. Copy it to your favourite location and it's ready to roll.
 
-Run `java -jar w2v-server-1.0.0.jar --help` for all command line parameters
+Run `java -jar word2vec-server-1.0.0.jar --help` for all command line parameters
 
 ``` bash
 Usage: w2v-server [-t] [--help] -f=<word2vecModelFile> [-p=<port>]
