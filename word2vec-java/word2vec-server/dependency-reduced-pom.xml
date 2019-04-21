@@ -10,6 +10,16 @@
   <version>${revision}</version>
   <description>Word2Vec gRPC service</description>
   <url>https://github.com/bignacio/dl4j</url>
+  <licenses>
+    <license>
+      <name>GNU General Public License Version 3</name>
+      <url>https://www.gnu.org/licenses/gpl-3.0.html</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>https://github.com/bignacio/dl4j</url>
+  </scm>
   <build>
     <plugins>
       <plugin>
@@ -69,6 +79,12 @@
           <groupId>org.apiguardian</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.drizzle.ml.word2vec</groupId>
+      <artifactId>grpc-java-client</artifactId>
+      <version>1.0.0</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>

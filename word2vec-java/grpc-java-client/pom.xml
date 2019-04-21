@@ -7,6 +7,7 @@
     <artifactId>grpc-java-client</artifactId>
     <version>${revision}</version>
 
+    <name>Word2Vec gRPC java client</name>
     <description>Word2Vec gRPC java client</description>
     <url>https://github.com/bignacio/dl4j</url>
 

@@ -7,7 +7,8 @@
     <artifactId>generated-grpc</artifactId>
     <version>${revision}</version>
 
-    <description>Word2Vec gRPC service</description>
+    <name>Word2Vec gRPC service</name>
+    <description>Word2Vec gRPC service and client dependencies</description>
     <url>https://github.com/bignacio/dl4j</url>
 
     <parent>
