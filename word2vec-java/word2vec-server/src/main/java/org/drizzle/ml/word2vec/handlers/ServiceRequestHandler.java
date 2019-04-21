@@ -1,7 +1,6 @@
 package org.drizzle.ml.word2vec.handlers;
 
 import io.grpc.stub.StreamObserver;
-import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
 import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
 import org.deeplearning4j.models.embeddings.reader.impl.TreeModelUtils;
 import org.deeplearning4j.models.word2vec.Word2Vec;
@@ -12,9 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.stream.Collectors;
 
 public class ServiceRequestHandler extends Word2VecServiceGrpc.Word2VecServiceImplBase {
     private static final Logger logger = LoggerFactory.getLogger(ServiceRequestHandler.class);
@@ -33,7 +33,7 @@ public class ServiceRequestHandler extends Word2VecServiceGrpc.Word2VecServiceIm
     }
 
     @Override
-    public StreamObserver<NearestToVector> getNearestWord(StreamObserver<VectorWordList> responseObserver) {
+    public StreamObserver<NearestToVector> getNearestWords(StreamObserver<VectorWordList> responseObserver) {
         logger.debug("getNearestWord called, model loaded {}", modelLoaded);
         return new NearestToVectorStreamObserver(responseObserver);
     }
@@ -99,7 +99,10 @@ public class ServiceRequestHandler extends Word2VecServiceGrpc.Word2VecServiceIm
 
                 WordVector.Builder wordVectorBuilder = WordVector.newBuilder();
                 if (vector != null) {
-                    wordVectorBuilder.setWord(word).addAllVector(new DoubleArrayList(vector));
+                    wordVectorBuilder.setWord(word);
+                    for (double value : vector) {
+                        wordVectorBuilder.addVector(value);
+                    }
                 }
 
                 responseObserver.onNext(wordVectorBuilder.build());
@@ -131,10 +134,11 @@ public class ServiceRequestHandler extends Word2VecServiceGrpc.Word2VecServiceIm
         public void onNext(NearestToVector nearestToVector) {
             logger.trace("getNearestWord onNext called with vector {}", nearestToVector);
             if (modelLoaded.get()) {
-                List<Word> words = model.wordsNearest(toINDArray(nearestToVector.getVectorList()), nearestToVector.getLimit())
-                        .stream()
-                        .map(word -> Word.newBuilder().setWord(word).build())
-                        .collect(Collectors.toList());
+                Collection<String> nearest = model.wordsNearest(toINDArray(nearestToVector.getVectorList()), nearestToVector.getLimit());
+                List<Word> words = new ArrayList<>();
+                for (String nearWord : nearest) {
+                    words.add(Word.newBuilder().setWord(nearWord).build());
+                }
 
                 VectorWordList vectorWordList = VectorWordList.newBuilder()
                         .addAllVector(nearestToVector.getVectorList())

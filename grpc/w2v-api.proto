@@ -11,7 +11,7 @@ service Word2VecService {
     rpc GetVectorMap (stream Word) returns (stream WordVector) {
     }
 
-    rpc GetNearestWord (stream NearestToVector) returns (stream VectorWordList) {
+    rpc GetNearestWords (stream NearestToVector) returns (stream VectorWordList) {
     }
 
     rpc GetStatus (VoidMessage) returns (Status) {

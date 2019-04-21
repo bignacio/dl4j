@@ -2,14 +2,10 @@ package org.drizzle.ml.word2vec.handlers;
 
 import io.grpc.stub.StreamObserver;
 import it.unimi.dsi.fastutil.doubles.DoubleArrayList;
-import org.deeplearning4j.models.embeddings.loader.WordVectorSerializer;
-import org.deeplearning4j.models.embeddings.wordvectors.WordVectors;
 import org.drizzle.ml.word2vec.service.*;
-import org.junit.jupiter.api.BeforeEach;
+import org.drizzle.ml.word2vec.test.WordTestUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.net.URISyntaxException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -17,16 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceRequestHandlerTest {
     private static final long MAX_WAIT_FOR_READY_TIME_MS = 10000L;
-    private static File modelFile;
-    private static Map<String, DoubleArrayList> wordMap;
 
-    private final String[] testWords = {"fire", "rocks", "water"};
+    private final List<String> testWords = List.of("fire", "rocks", "water");
+    private final Map<String, DoubleArrayList> wordMap = WordTestUtils.buildTestWordMap(testWords);
 
-    @BeforeEach
-    public void setup() throws URISyntaxException {
-        modelFile = new File(getClass().getResource("/w2vmodel.bin").toURI());
-        wordMap = buildTestWordMap();
-    }
 
     @Test
     public void getVectorMapFlatModel() {
@@ -50,12 +40,12 @@ public class ServiceRequestHandlerTest {
 
     @Test
     public void testStatus() {
-        ServiceRequestHandler handler = new ServiceRequestHandler(modelFile, false);
+        ServiceRequestHandler handler = new ServiceRequestHandler(WordTestUtils.modelFile, false);
         assertWaitForReady(handler);
     }
 
     private void verifyGetVectorMap(boolean useTreeModel) {
-        ServiceRequestHandler handler = new ServiceRequestHandler(modelFile, useTreeModel);
+        ServiceRequestHandler handler = new ServiceRequestHandler(WordTestUtils.modelFile, useTreeModel);
         assertWaitForReady(handler);
 
         WordVectorResponseObserver callObserver = new WordVectorResponseObserver();
@@ -79,12 +69,12 @@ public class ServiceRequestHandlerTest {
     }
 
     private void verifyGetNearestWord(boolean useTreeModel) {
-        ServiceRequestHandler handler = new ServiceRequestHandler(modelFile, useTreeModel);
+        ServiceRequestHandler handler = new ServiceRequestHandler(WordTestUtils.modelFile, useTreeModel);
         assertWaitForReady(handler);
 
         VectorWordListResponseObserver callObserver = new VectorWordListResponseObserver();
 
-        StreamObserver<NearestToVector> nearestWords = handler.getNearestWord(callObserver);
+        StreamObserver<NearestToVector> nearestWords = handler.getNearestWords(callObserver);
         for (DoubleArrayList vector : wordMap.values()) {
             nearestWords.onNext(NearestToVector.newBuilder()
                     .addAllVector(vector)
@@ -124,18 +114,6 @@ public class ServiceRequestHandlerTest {
         }
     }
 
-    private Map<String, DoubleArrayList> buildTestWordMap() {
-        WordVectors model = WordVectorSerializer.readWord2VecModel(modelFile, true);
-
-        Map<String, DoubleArrayList> result = new HashMap<>();
-
-        for (String word : testWords) {
-            DoubleArrayList vector = new DoubleArrayList(model.getWordVector(word));
-            result.put(word, vector);
-        }
-
-        return result;
-    }
 
     /**
      *
