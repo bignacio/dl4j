@@ -59,6 +59,14 @@ public class Word2VecClient {
                 .getReady();
     }
 
+    /**
+     * Returns a list of pairs vector -> word for each word given
+     * It will return an empty list in case of a timeout, e.i the all is taking longer than asyncTimeoutMs to complete.
+     *
+     * @param words list of words to find vectors
+     * @return pairs vector -> word
+     * @throws InterruptedException
+     */
     public List<Nd4jWordVector> getVectorMap(List<String> words) throws InterruptedException {
         var responseObserver = new WordVectorResponseObserver();
         StreamObserver<Word> requestObserver = asyncStub.getVectorMap(responseObserver);
@@ -75,10 +83,19 @@ public class Word2VecClient {
             );
         }
 
-
         return results;
     }
 
+    /**
+     * Returns the top limit words nearest to each vector given.
+     * For each vector, a list of words is returned in the response
+     * It will return an empty list in case of a timeout, e.i the all is taking longer than asyncTimeoutMs to complete.
+     *
+     * @param vectors list of vectors to find nearest words
+     * @param limit   maximum number of words returned
+     * @return list of nearest words for each vector
+     * @throws InterruptedException
+     */
     public List<Nd4jVectorWordList> getNearestWords(List<INDArray> vectors, int limit) throws InterruptedException {
         var responseObserver = new VectorWordListResponseObserver();
         StreamObserver<NearestToVector> requestObserver = asyncStub.getNearestWords(responseObserver);
