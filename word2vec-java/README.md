@@ -7,6 +7,9 @@ The Word2Vec Server is a simple gRPC based java server created to allow multiple
 
 The service user the [deeplearning4j word2vec implementation](https://deeplearning4j.org/docs/latest/deeplearning4j-nlp-word2vec).
 
+## Binary releases
+Checkout the [releases page](https://github.com/bignacio/dl4j/releases)for the most recent version of the binaries. 
+
 ## Building and running
 Requirements
 * JDK 11
