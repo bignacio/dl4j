@@ -24,11 +24,9 @@ Usage: w2v-server [-t] [--help] -f=<word2vecModelFile> [-p=<port>]
 Word2Vec server
       --help          Show help.
   -f, --file=<word2vecModelFile>
-                      Path to google vector file. See https://code.google.
-                        com/archive/p/word2vec/ for more information.
+                      Path to google vector file. See https://code.google.com/archive/p/word2vec/ for more information.
   -p, --port=<port>   Service port. Default 8080.
-  -t, --tree          Use tree model for faster lookup. Uses more memory. Default
-                        false.
+  -t, --tree          Use tree model for faster lookup. Uses more memory. Default false.
 ```
 
 By default, the service will listen on port `8080` but that can be changed through the parameter `-p` or `--port`.
