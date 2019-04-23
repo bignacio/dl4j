@@ -5,17 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>grpc-java-client</artifactId>
-    <version>${revision}</version>
+    <groupId>org.drizzle.ml.word2vec</groupId>
+    <version>1.0.0</version>
 
     <name>Word2Vec gRPC java client</name>
     <description>Word2Vec gRPC java client</description>
     <url>https://github.com/bignacio/dl4j</url>
 
-    <parent>
-        <groupId>org.drizzle.ml.word2vec</groupId>
-        <artifactId>word2vec-java</artifactId>
-        <version>${revision}</version>
-    </parent>
+    <properties>
+        <dl4j.version>1.0.0-beta3</dl4j.version>
+        <grpc.version>1.20.0</grpc.version>
+    </properties>
 
     <build>
         <plugins>
@@ -38,7 +38,7 @@
         <dependency>
             <groupId>org.drizzle.ml.word2vec</groupId>
             <artifactId>generated-grpc</artifactId>
-            <version>${revision}</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
