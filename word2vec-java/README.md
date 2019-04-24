@@ -88,8 +88,11 @@ Create a client connection passing the address of the server and port to the gRP
 The second argument in the constructor is the global timeout for async method calls.
 
 ```java
-Word2VecClient client = new Word2VecClient(ManagedChannelBuilder.forAddress("localhost", 8080), 1000L);
+Word2VecClient client = new Word2VecClient(ManagedChannelBuilder.forAddress("localhost", 8080).usePlaintext(), 1000L);
 ``` 
+
+`usePlaintext()` is required due to current lack of TLS support.
+
 For further control over the connection, consult the [ManagedChannelBuilder documentation](https://grpc.io/grpc-java/javadoc/io/grpc/ManagedChannelBuilder.html).  
 
 Vectors for one or more words (represented as [INDArrays](https://deeplearning4j.org/docs/latest/nd4j-overview)) can be obtained 
